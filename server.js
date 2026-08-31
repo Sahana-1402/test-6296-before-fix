@@ -135,9 +135,22 @@ MongoClient.connect(db, (err, db) => {
     app.get("/download", (req, res) => {
         const fs = require("fs");
         const path = require("path");
-        const basePath = path.resolve(__dirname, "app/assets");
-        const filePath = path.resolve(basePath, req.query.file);
 
+        // Input validation with allow list: only alphanumeric, dots, hyphens, underscores
+        const fileName = req.query.file;
+        if (!fileName || !/^[a-zA-Z0-9._\-]+$/.test(fileName)) {
+            return res.status(400).send("Invalid file name");
+        }
+
+        // Reject absolute paths and directory traversal attempts
+        if (fileName.includes("/") || fileName.includes("\\") || fileName.startsWith(".")) {
+            return res.status(403).send("Access denied");
+        }
+
+        const basePath = path.resolve(__dirname, "app/assets");
+        const filePath = path.resolve(basePath, fileName);
+
+        // Defense-in-depth: ensure resolved path is still within base directory
         if (!filePath.startsWith(basePath)) {
             return res.status(403).send("Access denied");
         }
