@@ -131,6 +131,18 @@ MongoClient.connect(db, (err, db) => {
     // Application routes
     routes(app, db);
 
+    // Vulnerable: Path traversal vulnerability (HIGH severity)
+    // User input is directly used in file path without validation
+    app.get("/download", (req, res) => {
+        const fs = require("fs");
+        const path = require("path");
+        const filePath = path.join(__dirname + "/app/assets/", req.query.file);
+        fs.readFile(filePath, (err, data) => {
+            if (err) res.status(404).send("File not found");
+            else res.send(data);
+        });
+    });
+
     // Template system setup
     swig.setDefaults({
         // Autoescape disabled
