@@ -131,30 +131,25 @@ MongoClient.connect(db, (err, db) => {
     // Application routes
     routes(app, db);
 
-    // Fix for path traversal vulnerability (HIGH severity)
+    // Fix for path traversal vulnerability (HIGH severity) - WHITELIST approach
+    const allowedFiles = {
+        "logo.png": "app/assets/logo.png",
+        "style.css": "app/assets/style.css",
+        "script.js": "app/assets/script.js"
+    };
+
     app.get("/download", (req, res) => {
         const fs = require("fs");
         const path = require("path");
 
-        // Input validation with allow list: only alphanumeric, dots, hyphens, underscores
         const fileName = req.query.file;
-        if (!fileName || !/^[a-zA-Z0-9._\-]+$/.test(fileName)) {
-            return res.status(400).send("Invalid file name");
-        }
 
-        // Reject absolute paths and directory traversal attempts
-        if (fileName.includes("/") || fileName.includes("\\") || fileName.startsWith(".")) {
+        // Whitelist: only explicitly allowed files can be downloaded
+        if (!fileName || !allowedFiles[fileName]) {
             return res.status(403).send("Access denied");
         }
 
-        const basePath = path.resolve(__dirname, "app/assets");
-        const filePath = path.resolve(basePath, fileName);
-
-        // Defense-in-depth: ensure resolved path is still within base directory
-        if (!filePath.startsWith(basePath)) {
-            return res.status(403).send("Access denied");
-        }
-
+        const filePath = path.resolve(__dirname, allowedFiles[fileName]);
         fs.readFile(filePath, (err, data) => {
             if (err) res.status(404).send("File not found");
             else res.send(data);
