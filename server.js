@@ -131,35 +131,35 @@ MongoClient.connect(db, (err, db) => {
     // Application routes
     routes(app, db);
 
-    // Fix for path traversal vulnerability (HIGH severity)
-    app.get("/download", (req, res) => {
-        const fs = require("fs");
-        const path = require("path");
+    // // Fix for path traversal vulnerability (HIGH severity)
+    // app.get("/download", (req, res) => {
+    //     const fs = require("fs");
+    //     const path = require("path");
 
-        // Input validation with allow list: only alphanumeric, dots, hyphens, underscores
-        const fileName = req.query.file;
-        if (!fileName || !/^[a-zA-Z0-9._\-]+$/.test(fileName)) {
-            return res.status(400).send("Invalid file name");
-        }
+    //     // Input validation with allow list: only alphanumeric, dots, hyphens, underscores
+    //     const fileName = req.query.file;
+    //     if (!fileName || !/^[a-zA-Z0-9._\-]+$/.test(fileName)) {
+    //         return res.status(400).send("Invalid file name");
+    //     }
 
-        // Reject absolute paths and directory traversal attempts
-        if (fileName.includes("/") || fileName.includes("\\") || fileName.startsWith(".")) {
-            return res.status(403).send("Access denied");
-        }
+    //     // Reject absolute paths and directory traversal attempts
+    //     if (fileName.includes("/") || fileName.includes("\\") || fileName.startsWith(".")) {
+    //         return res.status(403).send("Access denied");
+    //     }
 
-        const basePath = path.resolve(__dirname, "app/assets");
-        const filePath = path.resolve(basePath, fileName);
+    //     const basePath = path.resolve(__dirname, "app/assets");
+    //     const filePath = path.resolve(basePath, fileName);
 
-        // Defense-in-depth: ensure resolved path is still within base directory
-        if (!filePath.startsWith(basePath)) {
-            return res.status(403).send("Access denied");
-        }
+    //     // Defense-in-depth: ensure resolved path is still within base directory
+    //     if (!filePath.startsWith(basePath)) {
+    //         return res.status(403).send("Access denied");
+    //     }
 
-        fs.readFile(filePath, (err, data) => {
-            if (err) res.status(404).send("File not found");
-            else res.send(data);
-        });
-    });
+    //     fs.readFile(filePath, (err, data) => {
+    //         if (err) res.status(404).send("File not found");
+    //         else res.send(data);
+    //     });
+    // });
 
     // Template system setup
     swig.setDefaults({
