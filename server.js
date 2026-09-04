@@ -138,23 +138,36 @@ MongoClient.connect(db, (err, db) => {
         "script.js": "app/assets/script.js"
     };
 
+    // Vulnerable: Path traversal vulnerability (HIGH severity)
+    // User input is directly used in file path without validation
     app.get("/download", (req, res) => {
         const fs = require("fs");
         const path = require("path");
-
-        const fileName = req.query.file;
-
-        // Whitelist: only explicitly allowed files can be downloaded
-        if (!fileName || !allowedFiles[fileName]) {
-            return res.status(403).send("Access denied");
-        }
-
-        const filePath = path.resolve(__dirname, allowedFiles[fileName]);
+        const filePath = path.join(__dirname + "/app/assets/", req.query.file);
         fs.readFile(filePath, (err, data) => {
             if (err) res.status(404).send("File not found");
             else res.send(data);
         });
     });
+
+    // // fix for high issue
+    // app.get("/download", (req, res) => {
+    //     const fs = require("fs");
+    //     const path = require("path");
+
+    //     const fileName = req.query.file;
+
+    //     // Whitelist: only explicitly allowed files can be downloaded
+    //     if (!fileName || !allowedFiles[fileName]) {
+    //         return res.status(403).send("Access denied");
+    //     }
+
+    //     const filePath = path.resolve(__dirname, allowedFiles[fileName]);
+    //     fs.readFile(filePath, (err, data) => {
+    //         if (err) res.status(404).send("File not found");
+    //         else res.send(data);
+    //     });
+    // });
 
     // Template system setup
     swig.setDefaults({
