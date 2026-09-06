@@ -1,0 +1,2314 @@
+{
+  "adapters": [
+    {
+      "name": "Polaris SCM Discovery",
+      "id": "scm-discovery",
+      "version": "0.2.129",
+      "type": "json",
+      "stage": "polaris",
+      "status": "done",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/scm-discovery/versions/0.2.129/scm-discovery"
+        ],
+        "in": [
+          "github.api.url",
+          "github.repository.name",
+          "github.repository.owner.name",
+          "github.repository.branch.name",
+          "github.repository.branch.parent",
+          "github.repository.pull.number",
+          "gitlab.api.url",
+          "gitlab.repository.name",
+          "gitlab.repository.branch.name",
+          "gitlab.repository.branch.parent",
+          "gitlab.repository.pull.number",
+          "azure.api.url",
+          "azure.user.token",
+          "azure.organization.name",
+          "azure.project.name",
+          "azure.repository.name",
+          "azure.repository.branch.name",
+          "azure.repository.branch.parent",
+          "azure.repository.pull.number",
+          "azure.restAPIVersion",
+          "bitbucket.project.repository.pull.number",
+          "bitbucket.project.key",
+          "bitbucket.project.repository.name",
+          "bitbucket.project.repository.branch.name",
+          "bitbucket.project.repository.branch.parent",
+          "bridge.log.*"
+        ],
+        "out": [
+          "scm.branch.name",
+          "scm.branch.parent"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Initializer",
+      "id": "polaris-initializer",
+      "version": "1.0.185",
+      "type": "json",
+      "stage": "polaris",
+      "status": "done",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-initializer/versions/1.0.185/polaris-initializer"
+        ],
+        "in": [
+          "scm.branch.name",
+          "scm.branch.parent",
+          "polaris.prComment.enabled",
+          "polaris.triage",
+          "polaris.serverUrl",
+          "polaris.accessToken",
+          "polaris.application.name",
+          "polaris.project.name",
+          "polaris.assessment.types",
+          "polaris.assessment.mode",
+          "polaris.test.*.type",
+          "polaris.test.*.location",
+          "polaris.branch.name",
+          "polaris.branch.parent.name",
+          "polaris.onboarding",
+          "coverity.version",
+          "bridge.log.*"
+        ],
+        "out": [
+          "polaris.test.*.tests.*.id",
+          "polaris.test.*.tests.*.shortId",
+          "polaris.test.*.tests.*.toolIds",
+          "polaris.test.sast.tests.*.streamId",
+          "polaris.test.ai.tests.ExternalAnalysis.requested",
+          "polaris.project.id",
+          "polaris.branch.id",
+          "polaris.branch.parent.id",
+          "polaris.portfolioid",
+          "polaris.tenant.id",
+          "polaris.application.id",
+          "polaris.assessment.dastMode",
+          "polaris.profile.id",
+          "teleport.config.file"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris DAST Test Creation",
+      "id": "polaris-initializer",
+      "version": "1.0.185",
+      "type": "json",
+      "stage": "polaris-dast-init",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-initializer/versions/1.0.185/polaris-initializer",
+          "dast"
+        ],
+        "in": [
+          "polaris.serverUrl",
+          "polaris.accessToken",
+          "polaris.application.name",
+          "polaris.application.id",
+          "polaris.project.id",
+          "polaris.branch.id",
+          "polaris.profile.id",
+          "polaris.assessment.dastMode",
+          "teleport.initialized",
+          "bridge.log.*"
+        ],
+        "out": [
+          "polaris.test.*.tests.*.id",
+          "polaris.test.*.tests.*.shortId"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Controller",
+      "id": "polaris-controller",
+      "version": "0.2.227",
+      "type": "json",
+      "stage": "polaris-controller",
+      "status": "done",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-controller/versions/0.2.227/polaris-controller"
+        ],
+        "in": [
+          "bridge.os.type",
+          "bridge.os.arch",
+          "polaris.serverUrl",
+          "polaris.accessToken",
+          "polaris.waitForScan",
+          "polaris.test.*.tests.*.id",
+          "polaris.test.*.tests.*.toolIds",
+          "polaris.test.*.location",
+          "polaris.artifacts.coverity.path",
+          "polaris.prComment.enabled",
+          "polaris.reports.*.create",
+          "polaris.assessment.mode",
+          "tool.install.directory",
+          "environment.scan.pull",
+          "project.source.archive",
+          "teleport.config.file",
+          "bridge.log.*"
+        ],
+        "out": [
+          "coverity.id",
+          "sigma.id",
+          "coverity.completed",
+          "detect.id",
+          "polaris.test.*.tests.*.artifacts.uploadSuccessful",
+          "polaris.test.*.tests.*.artifacts.path",
+          "project.source.uploadSuccessful",
+          "polaris.reports.*.issues"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Teleport Installer",
+      "id": "teleport-adapter",
+      "version": "0.0.40",
+      "type": "json",
+      "stage": "polaris-dast-installer",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/teleport-adapter/versions/0.0.40/teleport-adapter",
+          "install"
+        ],
+        "in": [
+          "downloads.teleport.path",
+          "teleport.install.directory",
+          "bridge.log.*"
+        ],
+        "out": [
+          "teleport.execution.path"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Start Teleport Agent",
+      "id": "teleport-adapter",
+      "version": "0.0.40",
+      "type": "json",
+      "stage": "polaris-dast",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/teleport-adapter/versions/0.0.40/teleport-adapter",
+          "execute-async-start"
+        ],
+        "in": [
+          "teleport.execution.path",
+          "teleport.config.file",
+          "bridge.log.*"
+        ],
+        "out": [
+          "teleport.execution.pid",
+          "teleport.initialized"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Stop Teleport Agent",
+      "id": "teleport-adapter",
+      "version": "0.0.40",
+      "type": "json",
+      "stage": "teleport-termination",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/teleport-adapter/versions/0.0.40/teleport-adapter",
+          "execute-async-stop"
+        ],
+        "in": [
+          "polaris.test.dast.tests.*.completed",
+          "teleport.execution.pid",
+          "bridge.log.*"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris SCA Package Manager Scan",
+      "id": "detect-execution",
+      "version": "0.2.150",
+      "type": "json",
+      "stage": "polaris-sca-package",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/detect-execution/versions/0.2.150/detect-execution",
+          "package"
+        ],
+        "in": [
+          "coverity.completed",
+          "detect.args",
+          "detect.execution.path",
+          "detect.search.depth",
+          "detect.config.path",
+          "project.directory",
+          "bridge.home",
+          "adapter.home",
+          "bridge.diagnostics",
+          "bridge.log.*"
+        ],
+        "out": [
+          "detect.completed",
+          "polaris.test.sca.tests.*.artifacts.path",
+          "bridge.config.detect.errors"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris SCA Signature Scan",
+      "id": "detect-execution",
+      "version": "0.2.150",
+      "type": "json",
+      "stage": "polaris-sca-signature",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/detect-execution/versions/0.2.150/detect-execution",
+          "signature"
+        ],
+        "in": [
+          "coverity.completed",
+          "detect.args",
+          "detect.execution.path",
+          "detect.scanCli.install.directory",
+          "detect.search.depth",
+          "detect.config.path",
+          "project.directory",
+          "bridge.home",
+          "adapter.home",
+          "bridge.diagnostics",
+          "bridge.log.*"
+        ],
+        "out": [
+          "detect.signature.completed",
+          "polaris.test.sca.tests.*.artifacts.path",
+          "bridge.config.detect.errors"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Coverity Capture",
+      "id": "coverity-capture",
+      "version": "0.2.168",
+      "type": "json",
+      "stage": "polaris-sast",
+      "status": "done",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/coverity-capture/versions/0.2.168/coverity-capture"
+        ],
+        "in": [
+          "polaris.test.sast.tests.*.id",
+          "polaris.test.sast.tests.*.streamId",
+          "polaris.serverUrl",
+          "polaris.accessToken",
+          "project.directory",
+          "coverity.args",
+          "coverity.execution.path",
+          "coverity.license.installed",
+          "coverity.idir.input",
+          "coverity.build.command",
+          "coverity.clean.command",
+          "coverity.config.path",
+          "sigma.execution.path",
+          "adapter.home",
+          "bridge.diagnostics",
+          "bridge.log.*"
+        ],
+        "out": [
+          "coverity.completed",
+          "coverity.idir.output",
+          "snippetGenerator.avro.dir",
+          "polaris.test.sast.tests.*.artifacts.path",
+          "bridge.config.coverity.errors"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Sigma Installer",
+      "id": "sigma-adapter",
+      "version": "0.1.74",
+      "type": "json",
+      "stage": "sigma-installer",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/sigma-adapter/versions/0.1.74/sigma-adapter",
+          "install"
+        ],
+        "in": [
+          "bridge.os.type",
+          "bridge.os.arch",
+          "downloads.sigma.path",
+          "sigma.install.directory",
+          "bridge.log.*"
+        ],
+        "out": [
+          "sigma.execution.path"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Rapid SAST",
+      "id": "sigma-adapter",
+      "version": "0.1.74",
+      "type": "json",
+      "stage": "polaris-sast-rapid",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/sigma-adapter/versions/0.1.74/sigma-adapter",
+          "scan"
+        ],
+        "in": [
+          "bridge.os.type",
+          "bridge.os.arch",
+          "polaris.serverUrl",
+          "polaris.portfolioid",
+          "polaris.tenant.id",
+          "polaris.application.id",
+          "polaris.project.id",
+          "polaris.branch.id",
+          "polaris.test.sast.tests.sastRapid.id",
+          "polaris.test.sast.tests.sastRapid.streamId",
+          "polaris.test.sast.tests.sastRapidIssueUpload.id",
+          "project.directory",
+          "sigma.execution.path",
+          "sigma.args",
+          "coverity.config.path",
+          "adapter.home",
+          "bridge.log.*"
+        ],
+        "out": [
+          "sigma.completed",
+          "sigma.output.directory",
+          "sigma.output.logs",
+          "sigma.output.metrics",
+          "sigma.output.telemetry",
+          "snippetGenerator.avro.dir",
+          "polaris.test.sast.tests.sastRapid.artifacts.path"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Snippet Generator Installer",
+      "id": "polaris-snippet-adapter",
+      "version": "0.1.11",
+      "type": "json",
+      "stage": "polaris-code-snippets-install",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-snippet-adapter/versions/0.1.11/polaris-snippet-adapter",
+          "install"
+        ],
+        "in": [
+          "downloads.snippetGenerator.path",
+          "snippetGenerator.install.directory"
+        ],
+        "out": [
+          "snippetGenerator.execution.path"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Code Snippet Generator",
+      "id": "polaris-snippet-adapter",
+      "version": "0.1.11",
+      "type": "json",
+      "stage": "polaris-code-snippets",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-snippet-adapter/versions/0.1.11/polaris-snippet-adapter",
+          "snippet"
+        ],
+        "in": [
+          "polaris.portfolioid",
+          "polaris.tenant.id",
+          "polaris.application.id",
+          "polaris.project.id",
+          "polaris.branch.id",
+          "polaris.test.sast.tests.*.id",
+          "polaris.test.sast.tests.*.streamId",
+          "snippetGenerator.avro.dir",
+          "snippetGenerator.execution.path"
+        ],
+        "out": [
+          "polaris.test.sast.tests.*.artifacts.path"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Artifacts Uploader",
+      "id": "polaris-artifacts-uploader",
+      "version": "0.2.123",
+      "type": "json",
+      "stage": "polaris-artifacts-uploader",
+      "status": "done",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-artifacts-uploader/versions/0.2.123/polaris-artifacts-uploader"
+        ],
+        "in": [
+          "*.id",
+          "*.completed",
+          "detect.signature.completed",
+          "polaris.serverUrl",
+          "polaris.accessToken",
+          "polaris.test.*.tests.*.id",
+          "polaris.test.*.tests.*.toolIds",
+          "polaris.test.*.location",
+          "polaris.test.*.tests.*.artifacts.path",
+          "sigma.output.telemetry",
+          "bridge.log.*"
+        ],
+        "out": [
+          "polaris.test.*.tests.*.artifacts.uploadSuccessful"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Waiter",
+      "id": "polaris-waiter",
+      "version": "0.2.88",
+      "type": "json",
+      "stage": "polaris-post-processing",
+      "status": "done",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-waiter/versions/0.2.88/polaris-waiter"
+        ],
+        "in": [
+          "project.source.uploadSuccessful",
+          "polaris.serverUrl",
+          "polaris.accessToken",
+          "polaris.test.*.location",
+          "polaris.test.*.tests.*.id",
+          "polaris.test.sast.pollTime",
+          "polaris.test.sca.pollTime",
+          "polaris.test.*.tests.*.artifacts.uploadSuccessful",
+          "bridge.log.*"
+        ],
+        "out": [
+          "polaris.test.*.tests.*.completed"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Issues Fetcher",
+      "id": "polaris-issues-fetcher",
+      "version": "0.2.83",
+      "type": "json",
+      "stage": "polaris-post-processing",
+      "status": "done",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-issues-fetcher/versions/0.2.83/polaris-issues-fetcher"
+        ],
+        "in": [
+          "polaris.serverUrl",
+          "polaris.accessToken",
+          "polaris.portfolioid",
+          "polaris.application.id",
+          "polaris.project.id",
+          "polaris.project.name",
+          "polaris.branch.id",
+          "polaris.branch.name",
+          "polaris.test.*.tests.*.id",
+          "polaris.test.*.tests.*.completed",
+          "bridge.log.*"
+        ],
+        "out": [
+          "polaris.test.*.tests.*.issues.*"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Status Provider",
+      "id": "polaris-status-provider",
+      "version": "0.2.62",
+      "type": "json",
+      "stage": "polaris-status",
+      "status": "done",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-status-provider/versions/0.2.62/polaris-status-provider"
+        ],
+        "in": [
+          "polaris.serverUrl",
+          "polaris.portfolioid",
+          "polaris.application.id",
+          "polaris.project.id",
+          "polaris.project.name",
+          "polaris.branch.id",
+          "polaris.branch.name",
+          "polaris.waitForScan",
+          "project.source.uploadSuccessful",
+          "polaris.test.*.tests.*.artifacts.uploadSuccessful",
+          "polaris.test.*.tests.*.id",
+          "polaris.test.*.tests.*.shortId",
+          "polaris.test.*.tests.*.completed",
+          "polaris.test.*.tests.*.issues.*",
+          "bridge.log.*"
+        ],
+        "out": [
+          "polaris.test.*.tests.*.summary.url",
+          "polaris.project.issues.url"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Policy Checker",
+      "id": "polaris-policy-checker",
+      "version": "0.2.81",
+      "type": "json",
+      "stage": "polaris-post-processing",
+      "status": "done",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-policy-checker/versions/0.2.81/polaris-policy-checker"
+        ],
+        "in": [
+          "polaris.serverUrl",
+          "polaris.accessToken",
+          "polaris.test.*.tests.*.id",
+          "polaris.test.*.tests.*.completed",
+          "bridge.log.*"
+        ],
+        "out": [
+          "bridge.break"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Results",
+      "id": "polaris-results",
+      "version": "0.0.155",
+      "type": "json",
+      "stage": "polaris-results",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-results/versions/0.0.155/polaris-results",
+          "fetch",
+          "format"
+        ],
+        "in": [
+          "project.directory",
+          "polaris.serverUrl",
+          "polaris.accessToken",
+          "polaris.project.id",
+          "polaris.branch.id",
+          "polaris.branch.parent.id",
+          "polaris.test.*.tests.*.completed",
+          "polaris.prComment.enabled",
+          "polaris.prComment.severities",
+          "bridge.log.*"
+        ],
+        "out": [
+          "bridge.break",
+          "commenter.test.*.resultFetcher.successful",
+          "commenter.issues"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris SARIF Issues Fetcher",
+      "id": "polaris-sarif-issues-fetcher",
+      "version": "0.1.135",
+      "type": "json",
+      "stage": "polaris-reports-sarif",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-sarif-issues-fetcher/versions/0.1.135/polaris-sarif-issues-fetcher"
+        ],
+        "in": [
+          "polaris.serverUrl",
+          "polaris.accessToken",
+          "polaris.assessment.types",
+          "polaris.application.id",
+          "polaris.portfolioId",
+          "polaris.project.id",
+          "polaris.branch.id",
+          "polaris.reports.*.create",
+          "polaris.reports.*.issue.types",
+          "polaris.reports.*.severities",
+          "polaris.test.*.tests.*.completed",
+          "polaris.test.*.tests.*.id",
+          "polaris.reports.sarif.concurrencyRate.*",
+          "bridge.log.*"
+        ],
+        "out": [
+          "polaris.reports.*.issues"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris SARIF Generator",
+      "id": "sarif-generator",
+      "version": "0.1.141",
+      "type": "json",
+      "stage": "polaris-sarif-generator",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/sarif-generator/versions/0.1.141/sarif-generator"
+        ],
+        "in": [
+          "adapter.home",
+          "environment.scan.pull",
+          "polaris.reports.sarif.create",
+          "polaris.reports.sarif.issues",
+          "polaris.reports.sarif.file.path",
+          "polaris.reports.sarif.groupSCAIssues",
+          "bridge.log.*"
+        ],
+        "out": [
+          "polaris.reports.sarif.file.output"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Gitlab Reports Generator",
+      "id": "gitlab-reports-generator",
+      "version": "0.1.67",
+      "type": "json",
+      "stage": "polaris-gitlab-reports-generator",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/gitlab-reports-generator/versions/0.1.67/gitlab-reports-generator"
+        ],
+        "in": [
+          "polaris.reports.gitlab.create",
+          "polaris.reports.gitlab.issues",
+          "polaris.reports.gitlab.issue.types",
+          "polaris.reports.gitlab.dir.path",
+          "environment.scan.pull",
+          "adapter.home",
+          "bridge.log.*"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Polaris Source Test Creator",
+      "id": "polaris-source-test-creator",
+      "version": "0.2.76",
+      "type": "json",
+      "stage": "polaris-source-upload",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/polaris-source-test-creator/versions/0.2.76/polaris-source-test-creator"
+        ],
+        "in": [
+          "project.source.archive",
+          "polaris.triage",
+          "polaris.serverUrl",
+          "polaris.accessToken",
+          "polaris.assessment.types",
+          "polaris.assessment.mode",
+          "polaris.application.id",
+          "polaris.project.id",
+          "polaris.branch.id",
+          "polaris.test.*.type",
+          "polaris.test.*.location",
+          "bridge.log.*"
+        ],
+        "out": [
+          "polaris.test.*.tests.*.id",
+          "polaris.test.*.tests.*.shortId",
+          "project.source.uploadSuccessful"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Downloader Adapter",
+      "id": "downloader-adapter",
+      "version": "0.2.87",
+      "type": "json",
+      "stage": "downloader",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/downloader-adapter/versions/0.2.87/downloader-adapter"
+        ],
+        "in": [
+          "adapter.home",
+          "downloads.*.url",
+          "downloads.*.headers",
+          "bridge.log.*"
+        ],
+        "out": [
+          "downloads.*.path"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "SCM Checker",
+      "id": "scm-checker",
+      "version": "0.3.140",
+      "type": "json",
+      "stage": "scm",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/scm-checker/versions/0.3.140/scm-checker"
+        ],
+        "in": [
+          "github.repository.name",
+          "github.user.token",
+          "github.api.url",
+          "github.host.url",
+          "gitlab.repository.name",
+          "gitlab.user.token",
+          "gitlab.api.url",
+          "environment.scan.pull",
+          "blackducksca.automation.prComment",
+          "blackducksca.fixpr.enabled",
+          "blackducksca.policy.badges.create",
+          "blackducksca.scan.full",
+          "coverity.prComment.enabled",
+          "polaris.prComment.enabled",
+          "github.repository.pull.number",
+          "github.repository.owner.name",
+          "github.repository.branch.name",
+          "gitlab.repository.pull.number",
+          "gitlab.repository.branch.name",
+          "azure.api.url",
+          "azure.user.token",
+          "azure.organization.name",
+          "azure.project.name",
+          "azure.repository.name",
+          "azure.repository.branch.name",
+          "azure.repository.branch.parent",
+          "azure.repository.pull.number",
+          "azure.restAPIVersion",
+          "bitbucket.api.url",
+          "bitbucket.api.token",
+          "bitbucket.project.key",
+          "bitbucket.project.repository.name",
+          "bitbucket.project.repository.pull.number",
+          "commenter.test.*.resultFetcher.successful",
+          "bridge.log.*"
+        ],
+        "out": [
+          "scm.enterprise.version",
+          "jenkins.enabled"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "GitHub Badges",
+      "id": "github-badges",
+      "version": "0.1.77",
+      "type": "json",
+      "stage": "GitHubBadges",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/github-badges/versions/0.1.77/github-badges"
+        ],
+        "in": [
+          "github.api.url",
+          "github.host.url",
+          "github.user.token",
+          "github.repository.name",
+          "github.repository.owner.name",
+          "github.repository.branch.name",
+          "blackducksca.policy.badges.create",
+          "blackducksca.policy.badges.maxCount",
+          "blackducksca.policy.rules.violations",
+          "network.airGap",
+          "scm.enterprise.version",
+          "environment.scan.pull",
+          "bridge.log.*"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "GitHub Pull Request Handler",
+      "id": "github-pull-request-handler",
+      "version": "0.2.120",
+      "type": "json",
+      "stage": "GitHubFixPR",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/github-pull-request-handler/versions/0.2.120/github-pull-request-handler"
+        ],
+        "in": [
+          "github.api.url",
+          "github.host.url",
+          "github.user.token",
+          "github.repository.name",
+          "github.repository.owner.name",
+          "github.repository.branch.name",
+          "blackducksca.fixpr.enabled",
+          "fixpr.issues",
+          "network.airGap",
+          "bridge.log.*"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "GitLab Pull Request Handler",
+      "id": "gitlab-pull-request-handler",
+      "version": "0.2.96",
+      "type": "json",
+      "stage": "GitlabFixPr",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/gitlab-pull-request-handler/versions/0.2.96/gitlab-pull-request-handler"
+        ],
+        "in": [
+          "gitlab.api.url",
+          "gitlab.user.token",
+          "gitlab.repository.name",
+          "gitlab.repository.branch.name",
+          "blackducksca.fixpr.enabled",
+          "fixpr.issues",
+          "network.airGap",
+          "bridge.log.*"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Azure Pull Request Handler",
+      "id": "azure-pull-request-handler",
+      "version": "0.1.113",
+      "type": "json",
+      "stage": "AzureFixPR",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/azure-pull-request-handler/versions/0.1.113/azure-pull-request-handler"
+        ],
+        "in": [
+          "azure.api.url",
+          "azure.user.token",
+          "azure.organization.name",
+          "azure.project.name",
+          "azure.repository.name",
+          "azure.repository.branch.name",
+          "azure.restAPIVersion",
+          "blackducksca.fixpr.enabled",
+          "fixpr.issues",
+          "network.airGap",
+          "bridge.log.*"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Bitbucket Pull Request Handler",
+      "id": "bitbucket-pull-request-handler",
+      "version": "0.1.67",
+      "type": "json",
+      "stage": "BitbucketFixPR",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/bitbucket-pull-request-handler/versions/0.1.67/bitbucket-pull-request-handler"
+        ],
+        "in": [
+          "bitbucket.api.url",
+          "bitbucket.api.token",
+          "bitbucket.api.user.name",
+          "bitbucket.project.key",
+          "bitbucket.workspace.id",
+          "bitbucket.project.repository.name",
+          "bitbucket.project.repository.branch.name",
+          "blackducksca.fixpr.enabled",
+          "scm.enterprise.version",
+          "network.airGap",
+          "fixpr.issues",
+          "bridge.log.*"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "GitHub Commenter",
+      "id": "github-commenter",
+      "version": "0.2.103",
+      "type": "json",
+      "stage": "GitHubPRComment",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/github-commenter/versions/0.2.103/github-commenter"
+        ],
+        "in": [
+          "github.repository.name",
+          "github.user.token",
+          "github.api.url",
+          "github.host.url",
+          "environment.scan.pull",
+          "github.repository.pull.number",
+          "github.repository.owner.name",
+          "github.repository.branch.name",
+          "github.repository.branch.parent",
+          "commenter.issues",
+          "commenter.test.*.resultFetcher.successful",
+          "scm.enterprise.version",
+          "network.airGap",
+          "bridge.log.*"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Gitlab Commenter",
+      "id": "gitlab-commenter",
+      "version": "0.2.87",
+      "type": "json",
+      "stage": "GitLabPRComment",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/gitlab-commenter/versions/0.2.87/gitlab-commenter"
+        ],
+        "in": [
+          "gitlab.repository.name",
+          "gitlab.user.token",
+          "gitlab.api.url",
+          "environment.scan.pull",
+          "gitlab.repository.pull.number",
+          "commenter.issues",
+          "commenter.test.*.resultFetcher.successful",
+          "scm.enterprise.version",
+          "network.airGap",
+          "bridge.log.*"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Azure Commenter",
+      "id": "azure-commenter",
+      "version": "0.1.122",
+      "type": "json",
+      "stage": "AzurePRComment",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/azure-commenter/versions/0.1.122/azure-commenter"
+        ],
+        "in": [
+          "azure.api.url",
+          "azure.user.token",
+          "azure.repository.name",
+          "azure.organization.name",
+          "azure.project.name",
+          "azure.repository.branch.name",
+          "azure.repository.branch.parent",
+          "azure.repository.pull.number",
+          "azure.restAPIVersion",
+          "environment.scan.pull",
+          "commenter.issues",
+          "commenter.test.*.resultFetcher.successful",
+          "network.airGap",
+          "bridge.log.*"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Bitbucket Commenter",
+      "id": "bitbucket-commenter",
+      "version": "0.1.115",
+      "type": "json",
+      "stage": "BitbucketPRComment",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/bitbucket-commenter/versions/0.1.115/bitbucket-commenter"
+        ],
+        "in": [
+          "bitbucket.api.url",
+          "bitbucket.api.user.name",
+          "bitbucket.api.token",
+          "bitbucket.project.key",
+          "bitbucket.workspace.id",
+          "bitbucket.project.repository.name",
+          "bitbucket.project.repository.pull.number",
+          "commenter.issues",
+          "commenter.test.*.resultFetcher.successful",
+          "scm.enterprise.version",
+          "environment.scan.pull",
+          "bridge.log.*"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Project Source Zipper",
+      "id": "project-source-zipper",
+      "version": "0.2.50",
+      "type": "json",
+      "stage": "source-zipper",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/project-source-zipper/versions/0.2.50/project-source-zipper"
+        ],
+        "in": [
+          "project.directory",
+          "project.source.excludes",
+          "project.source.preserveSymLinks",
+          "adapter.home",
+          "bridge.home",
+          "bridge.log.*"
+        ],
+        "out": [
+          "project.source.archive"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Coverity Installer",
+      "id": "coverity-installer",
+      "version": "0.2.63",
+      "type": "json",
+      "stage": "coverity-installer",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/coverity-installer/versions/0.2.63/coverity-installer"
+        ],
+        "in": [
+          "coverity.local",
+          "downloads.coverity.path",
+          "downloads.coveritylicense.path",
+          "coverity.install.directory",
+          "coverity.license.region",
+          "bridge.log.*"
+        ],
+        "out": [
+          "coverity.execution.path",
+          "coverity.license.installed"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Detect Installer",
+      "id": "detect-installer",
+      "version": "0.2.71",
+      "type": "json",
+      "stage": "detect-installer",
+      "status": "loaded",
+      "config": {
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/detect-installer/versions/0.2.71/detect-installer"
+        ],
+        "in": [
+          "downloads.detect.path",
+          "downloads.detectScanCli.path",
+          "detect.install.directory",
+          "detect.scanCli.install.directory",
+          "bridge.log.*"
+        ],
+        "out": [
+          "detect.execution.path"
+        ]
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Default Bridge Invoked From",
+      "id": "",
+      "version": "",
+      "type": "default",
+      "stage": "default",
+      "status": "done",
+      "config": {
+        "set": {
+          "key": "bridge.invoked.from",
+          "value": "CLI"
+        },
+        "command": null
+      },
+      "CacheDir": ""
+    },
+    {
+      "name": "Set Polaris Assessment Mode to CI",
+      "id": "",
+      "version": "",
+      "type": "default",
+      "stage": "polaris",
+      "status": "done",
+      "config": {
+        "set": {
+          "key": "polaris.assessment.mode",
+          "value": "CI"
+        },
+        "command": null
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Set Polaris Wait For Scan",
+      "id": "",
+      "version": "",
+      "type": "default",
+      "stage": "polaris",
+      "status": "done",
+      "config": {
+        "set": {
+          "key": "polaris.waitForScan",
+          "value": true
+        },
+        "command": null
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Check pull request",
+      "id": "check-pull-request",
+      "version": "0.3.74",
+      "type": "default",
+      "stage": "scm",
+      "status": "done",
+      "config": {
+        "set": {},
+        "command": [
+          "/Users/suhaslr/.blackduck/bridge/adapters/check-pull-request/versions/0.3.74/check-pull-request"
+        ],
+        "in": [
+          "bridge.log.*"
+        ],
+        "target": "environment.scan.pull"
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Default Adapter for execution path",
+      "id": "",
+      "version": "",
+      "type": "default",
+      "stage": "",
+      "status": "done",
+      "config": {
+        "set": {
+          "key": "coverity.execution.path",
+          "value": "/Users/suhaslr/.blackduck/bridge/tools/cov-thin-client/2025.9.0/bin/coverity"
+        },
+        "command": null
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    },
+    {
+      "name": "Default Adapter for execution path",
+      "id": "",
+      "version": "",
+      "type": "default",
+      "stage": "",
+      "status": "done",
+      "config": {
+        "set": {
+          "key": "sigma.execution.path",
+          "value": "/Users/suhaslr/.blackduck/bridge/tools/sigma/2025.11.0/sigma"
+        },
+        "command": null
+      },
+      "CacheDir": "/Users/suhaslr/.blackduck/bridge"
+    }
+  ],
+  "data": {
+    "bridge": {
+      "diagnostics": true,
+      "invoked": {
+        "from": "CLI"
+      },
+      "log": {
+        "debug": true,
+        "identifier": "",
+        "jsonLog": true,
+        "newLog": true
+      }
+    },
+    "coverity": {
+      "completed": true,
+      "execution": {
+        "path": "/Users/suhaslr/.blackduck/bridge/tools/cov-thin-client/2025.9.0/bin/coverity"
+      },
+      "id": "cov_thin_client:2025.9.0",
+      "idir": {
+        "output": "/Users/suhaslr/Documents/work/test_projects/Node_Goat_E2E_copy/.bridge/polaris_coverity_capture/2025.9.0/idir"
+      }
+    },
+    "environment": {
+      "scan": {
+        "pull": false
+      }
+    },
+    "polaris": {
+      "accessToken": "<HIDDEN>",
+      "application": {
+        "id": "5336a6c6-a106-4cf2-a91b-ddda8e8046f7",
+        "name": "slr_app"
+      },
+      "assessment": {
+        "mode": "CI",
+        "types": [
+          "sast"
+        ]
+      },
+      "branch": {
+        "id": "aaa73087-819b-4c46-8bfb-5aefd5637841",
+        "name": "main"
+      },
+      "onboarding": false,
+      "portfolioid": "c8003202-7753-40f9-9125-7a4fb82fa1cb",
+      "project": {
+        "id": "60451028-9623-471b-b9f1-b0f40516ce72",
+        "issues": {
+          "url": "https://pim.dev.polaris.blackduck.com/portfolio/portfolios/c8003202-7753-40f9-9125-7a4fb82fa1cb/portfolio-items/5336a6c6-a106-4cf2-a91b-ddda8e8046f7/projects/60451028-9623-471b-b9f1-b0f40516ce72/issues?branchId=aaa73087-819b-4c46-8bfb-5aefd5637841"
+        },
+        "name": "test-multi_version"
+      },
+      "serverUrl": "https://pim.dev.polaris.blackduck.com",
+      "tenant": {
+        "id": "b7e4a4e6-6dbf-492a-b688-37df635ea49f"
+      },
+      "test": {
+        "SAST": {
+          "tests": {
+            "sastFull": {
+              "artifacts": {
+                "path": "/Users/suhaslr/Documents/work/test_projects/Node_Goat_E2E_copy/.bridge/polaris_coverity_capture/idir.zip",
+                "uploadSuccessful": true
+              },
+              "completed": true,
+              "id": "3ef6647d-8d57-42b7-92c1-e977030eadf7",
+              "issues": {
+                "critical": 0,
+                "high": 0,
+                "informational": 0,
+                "low": 19,
+                "medium": 16
+              },
+              "shortId": "PQ3KPGI",
+              "streamId": "c83084af-a9e4-489e-b08e-a39140c64567",
+              "summary": {
+                "url": "https://pim.dev.polaris.blackduck.com/portfolio/portfolios/c8003202-7753-40f9-9125-7a4fb82fa1cb/portfolio-items/5336a6c6-a106-4cf2-a91b-ddda8e8046f7/projects/60451028-9623-471b-b9f1-b0f40516ce72/tests/3ef6647d-8d57-42b7-92c1-e977030eadf7/detected-issues"
+              },
+              "toolIds": [
+                "cov_thin_client:2025.9.0",
+                "sigma:2025.11.0"
+              ]
+            }
+          }
+        }
+      },
+      "waitForScan": true
+    },
+    "sigma": {
+      "execution": {
+        "path": "/Users/suhaslr/.blackduck/bridge/tools/sigma/2025.11.0/sigma"
+      },
+      "id": "sigma:2025.11.0"
+    }
+  },
+  "schema": {
+    "azure.api.url": {
+      "description": "API URL for azure",
+      "type": "string"
+    },
+    "azure.organization.name": {
+      "description": "Name of the azure organization",
+      "type": "string"
+    },
+    "azure.project.name": {
+      "description": "Name of the azure project",
+      "type": "string"
+    },
+    "azure.repository.branch.name": {
+      "description": "Branch name for the azure repository",
+      "type": "string"
+    },
+    "azure.repository.branch.parent": {
+      "description": "Target branch name for the azure repository",
+      "type": "string"
+    },
+    "azure.repository.name": {
+      "description": "Name of the azure repository",
+      "type": "string"
+    },
+    "azure.repository.pull.number": {
+      "description": "The Azure pull request number of the current run",
+      "type": "int"
+    },
+    "azure.restAPIVersion": {
+      "description": "The Azure REST API version",
+      "type": "string"
+    },
+    "azure.user.token": {
+      "description": "Access token for azure API authentication",
+      "type": "string",
+      "isSensitive": true
+    },
+    "bitbucket.api.token": {
+      "description": "The API Token for requesting Bitbucket server",
+      "type": "string",
+      "isSensitive": true
+    },
+    "bitbucket.api.url": {
+      "description": "The URL of the Bitbucket server",
+      "type": "string"
+    },
+    "bitbucket.api.user.name": {
+      "description": "The User Name for requesting Bitbucket server. It is used in combination with App Password",
+      "type": "string",
+      "isSensitive": true
+    },
+    "bitbucket.project.key": {
+      "description": "The key of the project",
+      "type": "string"
+    },
+    "bitbucket.project.repository.branch.name": {
+      "description": "Branch name for the bitbucket repository",
+      "type": "string"
+    },
+    "bitbucket.project.repository.branch.parent": {
+      "description": "Target branch name for the bitbucket repository",
+      "type": "string"
+    },
+    "bitbucket.project.repository.name": {
+      "description": "Name of the Bitbucket repository",
+      "type": "string"
+    },
+    "bitbucket.project.repository.pull.number": {
+      "description": "The GitHub pull request number of the current run",
+      "type": "int"
+    },
+    "bitbucket.user.name": {
+      "description": "DEPRECATED: Bitbucket user name",
+      "type": "string",
+      "isSensitive": true,
+      "isDeprecated": true,
+      "renamedTo": "bitbucket.api.user.name"
+    },
+    "bitbucket.workspace.id": {
+      "description": "The bitbucket cloud workspace id",
+      "type": "string"
+    },
+    "blackduck.args": {
+      "description": "DEPRECATED: additional arguments to pass to Black Duck SCA detect",
+      "type": "string",
+      "isDeprecated": true,
+      "renamedTo": "detect.args"
+    },
+    "blackduck.completed": {
+      "description": "DEPRECATED: Flag indicating whether the blackduck execution happened successfully or not",
+      "type": "bool",
+      "isDeprecated": true,
+      "renamedTo": "detect.completed"
+    },
+    "blackduck.config.path": {
+      "description": "DEPRECATED: File path to the detect configuration file",
+      "type": "string",
+      "isDeprecated": true,
+      "renamedTo": "detect.config.path"
+    },
+    "blackduck.download.url": {
+      "description": "DEPRECATED: User supplied url to download detect jar from",
+      "type": "string",
+      "isDeprecated": true,
+      "renamedTo": "detect.download.url"
+    },
+    "blackduck.execution.path": {
+      "description": "DEPRECATED: detect jar file path",
+      "type": "string",
+      "isDeprecated": true,
+      "renamedTo": "detect.execution.path"
+    },
+    "blackduck.id": {
+      "description": "DEPRECATED: tool id of Blackduck tool used",
+      "type": "string",
+      "isDeprecated": true,
+      "renamedTo": "detect.id"
+    },
+    "blackduck.install.directory": {
+      "description": "DEPRECATED: User supplied install directory for detect",
+      "type": "string",
+      "isDeprecated": true,
+      "renamedTo": "detect.install.directory"
+    },
+    "blackduck.scanCli.install.directory": {
+      "description": "DEPRECATED:  Detect signature scan cli install directory",
+      "type": "string",
+      "isDeprecated": true,
+      "renamedTo": "detect.scanCli.install.directory"
+    },
+    "blackduck.search.depth": {
+      "description": "DEPRECATED: Search depth for the Blackduck scan",
+      "type": "int",
+      "isDeprecated": true,
+      "renamedTo": "detect.search.depth"
+    },
+    "blackduck.version": {
+      "description": "DEPRECATED: Tool version of Detect to be used.",
+      "type": "string",
+      "isDeprecated": true,
+      "renamedTo": "detect.version"
+    },
+    "bridge.break": {
+      "description": "Resource that will be used to break the build(non-zero exit code from Bridge CLI)",
+      "type": "bool"
+    },
+    "bridge.config.*.errors": {
+      "description": "Tool Configuration Errors",
+      "type": "[]string"
+    },
+    "bridge.diagnostics": {
+      "description": "Set diagnostics mode",
+      "type": "bool"
+    },
+    "bridge.invoked.from": {
+      "description": "The application name from which Bridge was invoked",
+      "type": "string"
+    },
+    "bridge.log.debug": {
+      "description": "Set the logging level to DEBUG.",
+      "type": "bool"
+    },
+    "bridge.log.identifier": {
+      "description": "Add unique identifier to logs.",
+      "type": "string"
+    },
+    "bridge.log.jsonLog": {
+      "description": "Set the logs to json structure log.",
+      "type": "bool"
+    },
+    "bridge.log.newLog": {
+      "description": "Set the logs to use new logger",
+      "type": "bool"
+    },
+    "commenter.issues": {
+      "description": "The issues from other adapters that is consumed by SCM Commenter adapters to create review comments.",
+      "type": "[]CommenterIssue"
+    },
+    "commenter.test.*.resultFetcher.successful": {
+      "description": "Flag to indicate if the test result fetcher was successful",
+      "type": "bool"
+    },
+    "coverity.args": {
+      "description": "additional arguments to pass to coverity",
+      "type": "string"
+    },
+    "coverity.build.command": {
+      "description": "Build command to be passed to Coverity",
+      "type": "string"
+    },
+    "coverity.clean.command": {
+      "description": "Clean command to be passed to Coverity",
+      "type": "string"
+    },
+    "coverity.completed": {
+      "description": "flag indicating whether the coverity capture happened successfully or not",
+      "type": "bool"
+    },
+    "coverity.config.path": {
+      "description": "Path to Coverity configuration file",
+      "type": "string"
+    },
+    "coverity.execution.path": {
+      "description": "If the correct version of coverity is already installed, set the value of this resource to the path of the coverity thin client.",
+      "type": "string"
+    },
+    "coverity.id": {
+      "description": "Tool id of Coverity tool used",
+      "type": "string"
+    },
+    "coverity.idir.input": {
+      "description": "The value to be passed for Coverity CLI --dir option",
+      "type": "string"
+    },
+    "coverity.idir.output": {
+      "description": "The value that was passed for Coverity CLI --dir option",
+      "type": "string"
+    },
+    "coverity.install.directory": {
+      "description": "If given, this is where we will look to see if coverity is installed.",
+      "type": "string"
+    },
+    "coverity.license.installed": {
+      "description": "Indicates whether the Coverity license has been installed",
+      "type": "bool"
+    },
+    "coverity.local": {
+      "description": "This flag will decide the coverity analysis mode to run",
+      "type": "bool"
+    },
+    "coverity.version": {
+      "description": "Tool version of Coverity to be used.",
+      "type": "string"
+    },
+    "detect.args": {
+      "description": "additional arguments to pass to Black Duck SCA detect",
+      "type": "string"
+    },
+    "detect.completed": {
+      "description": "Flag indicating whether the detect execution happened successfully or not",
+      "type": "bool"
+    },
+    "detect.config.path": {
+      "description": "File path to the detect configuration file",
+      "type": "string"
+    },
+    "detect.download.url": {
+      "description": "User supplied url to download detect jar from",
+      "type": "string"
+    },
+    "detect.execution.path": {
+      "description": "Detect jar file path",
+      "type": "string"
+    },
+    "detect.id": {
+      "description": "Tool id of Detect tool used",
+      "type": "string"
+    },
+    "detect.install.directory": {
+      "description": "User supplied install directory for detect",
+      "type": "string"
+    },
+    "detect.scanCli.install.directory": {
+      "description": "Detect signature scan cli install directory",
+      "type": "string"
+    },
+    "detect.search.depth": {
+      "description": "Search depth for the Detect scan",
+      "type": "int"
+    },
+    "detect.signature.completed": {
+      "description": "Flag indicating the completion of the Detect signature scan",
+      "type": "bool"
+    },
+    "detect.version": {
+      "description": "Tool version of Detect to be used.",
+      "type": "string"
+    },
+    "downloads.*": {
+      "description": "a download key for grouping url, path, and headers related to a specific payload.",
+      "type": "downloadType"
+    },
+    "environment.scan.pull": {
+      "description": "A boolean represents if the pipeline is triggered by a MR/PR event",
+      "type": "bool"
+    },
+    "github.api.url": {
+      "description": "API URL for Github",
+      "type": "string"
+    },
+    "github.host.url": {
+      "description": "Host URL for Github",
+      "type": "string"
+    },
+    "github.repository.branch.name": {
+      "description": "Branch name for the Github repository",
+      "type": "string"
+    },
+    "github.repository.branch.parent": {
+      "description": "Parent branch of the branch provided in the Github repository",
+      "type": "string"
+    },
+    "github.repository.name": {
+      "description": "Name of the Github repository",
+      "type": "string"
+    },
+    "github.repository.owner.name": {
+      "description": "Owner name for the Github repository",
+      "type": "string"
+    },
+    "github.repository.pull.number": {
+      "description": "The GitHub pull request number of the current run",
+      "type": "int"
+    },
+    "github.user.token": {
+      "description": "Access token for Github API authentication",
+      "type": "string",
+      "isSensitive": true
+    },
+    "gitlab.api.url": {
+      "description": "API URL for Gitlab",
+      "type": "string"
+    },
+    "gitlab.repository.branch.name": {
+      "description": "Branch name for the GitLab repository",
+      "type": "string"
+    },
+    "gitlab.repository.name": {
+      "description": "Name of the Gitlab repository",
+      "type": "string"
+    },
+    "gitlab.repository.pull.number": {
+      "description": "The Gitlab pull request number of the current run",
+      "type": "int"
+    },
+    "gitlab.user.token": {
+      "description": "Access token for Gitlab API authentication",
+      "type": "string",
+      "isSensitive": true
+    },
+    "network.airGap": {
+      "description": "Flag to indicate whether the current run should be run in air-gapped mode. Defaults to false",
+      "type": "bool"
+    },
+    "network.ssl.cert.file": {
+      "description": "Path to the SSL certificate file",
+      "type": "string"
+    },
+    "network.ssl.trustAll": {
+      "description": "Flag to trust all SSL certificates",
+      "type": "bool"
+    },
+    "polaris.accessToken": {
+      "description": "Access token required for Polaris server authentication",
+      "type": "string",
+      "isSensitive": true
+    },
+    "polaris.application.id": {
+      "description": "Polaris Application Id",
+      "type": "string"
+    },
+    "polaris.application.name": {
+      "description": "Application name created in Polaris server",
+      "type": "string"
+    },
+    "polaris.artifacts.blackduck.path": {
+      "description": "DEPRECATED: path of the blackduck artifacts to be uploaded for analysis",
+      "type": "string",
+      "isDeprecated": true,
+      "renamedTo": "polaris.test.*.tests.*.artifacts.path"
+    },
+    "polaris.artifacts.blackduck.uploadSuccessful": {
+      "description": "DEPRECATED: Flag specifying the blackduck artifact was uploaded successfully",
+      "type": "bool",
+      "isDeprecated": true,
+      "renamedTo": "polaris.test.*.tests.*.artifacts.uploadSuccessful"
+    },
+    "polaris.artifacts.coverity.path": {
+      "description": "Path of the Coverity artifacts to be uploaded for analysis",
+      "type": "string"
+    },
+    "polaris.assessment.dastMode": {
+      "description": "Test mode of Dast scans, read from proxy details",
+      "type": "string"
+    },
+    "polaris.assessment.mode": {
+      "description": "Test mode type of the scan, defaults to 'CI'",
+      "type": "string"
+    },
+    "polaris.assessment.types": {
+      "description": "Assessment types for which user wants to run tests for.",
+      "type": "[]string"
+    },
+    "polaris.branch.id": {
+      "description": "Branch id of the project branch in Polaris server",
+      "type": "string"
+    },
+    "polaris.branch.name": {
+      "description": "Branch name for the project created in Polaris server",
+      "type": "string"
+    },
+    "polaris.branch.parent.id": {
+      "description": "Branch id of the project's parent branch in Polaris server",
+      "type": "string"
+    },
+    "polaris.branch.parent.name": {
+      "description": "Parent Branch name for the project created in Polaris server",
+      "type": "string"
+    },
+    "polaris.onboarding": {
+      "description": "If true, creates project and branch if they don't exist. Defaults to true",
+      "type": "bool"
+    },
+    "polaris.portfolioid": {
+      "description": "Polaris Portfolio Id",
+      "type": "string"
+    },
+    "polaris.prComment.enabled": {
+      "description": "Flag to denote whether pr comments feature is enabled or not",
+      "type": "bool"
+    },
+    "polaris.prComment.severities": {
+      "description": "List of severities for which the PR Comments should be created",
+      "type": "[]string"
+    },
+    "polaris.profile.id": {
+      "description": "The ID of the Project Proxy Profile",
+      "type": "string"
+    },
+    "polaris.project.id": {
+      "description": "Project id created in Polaris server for the given project",
+      "type": "string"
+    },
+    "polaris.project.issues.url": {
+      "description": "Link to Polaris issue view for project and branch",
+      "type": "string"
+    },
+    "polaris.project.name": {
+      "description": "Project name created in Polaris server",
+      "type": "string"
+    },
+    "polaris.reports.gitlab.create": {
+      "description": "Flag to enable Polaris Gitlab report creation",
+      "type": "bool"
+    },
+    "polaris.reports.gitlab.dir.path": {
+      "description": "File path where Polaris Gitlab report will be created",
+      "type": "string"
+    },
+    "polaris.reports.gitlab.groupSCAIssues": {
+      "description": "Flag to denote whether to group SCA issues by vulnerabilities of a component-version pair in Polaris Gitlab report, defaults to true",
+      "type": "bool"
+    },
+    "polaris.reports.gitlab.issue.types": {
+      "description": "The issue types to include in the Polaris Gitlab report",
+      "type": "[]string"
+    },
+    "polaris.reports.gitlab.issues": {
+      "description": "The Polaris Gitlab issue input data",
+      "type": "[]SARIFIssue"
+    },
+    "polaris.reports.gitlab.severities": {
+      "description": "The issue severities to include in the Polaris Gitlab report, defaults to all severities",
+      "type": "[]string"
+    },
+    "polaris.reports.sarif.concurrencyRate.*": {
+      "description": "Concurrency rate for the issue data fetch which is used to populate polaris.reports.sarif.issues/polaris.reports.gitlab.issues",
+      "type": "int"
+    },
+    "polaris.reports.sarif.create": {
+      "description": "Flag to enable Polaris SARIF report creation",
+      "type": "bool"
+    },
+    "polaris.reports.sarif.file.output": {
+      "description": "Path to the Polaris SARIF report created on disk",
+      "type": "string"
+    },
+    "polaris.reports.sarif.file.path": {
+      "description": "File path where Polaris SARIF report will be created",
+      "type": "string"
+    },
+    "polaris.reports.sarif.groupSCAIssues": {
+      "description": "Flag to denote whether to group SCA issues by vulnerabilities of a component-version pair in Polaris SARIF report, defaults to true",
+      "type": "bool"
+    },
+    "polaris.reports.sarif.issue.types": {
+      "description": "The issue types to include in the Polaris SARIF report",
+      "type": "[]string"
+    },
+    "polaris.reports.sarif.issues": {
+      "description": "The Polaris SARIF issue input data",
+      "type": "[]SARIFIssue"
+    },
+    "polaris.reports.sarif.severities": {
+      "description": "The issue severities to include in the Polaris SARIF report, defaults to all severities",
+      "type": "[]string"
+    },
+    "polaris.serverUrl": {
+      "description": "Server url of Polaris service",
+      "type": "string"
+    },
+    "polaris.tenant.id": {
+      "description": "Polaris Tenant Id",
+      "type": "string"
+    },
+    "polaris.test.*.location": {
+      "description": "Determines whether scans would happen locally, in a remote location (the polaris scan farm) or a hybrid of both, defaults to hybrid",
+      "type": "string"
+    },
+    "polaris.test.*.tests.*.artifacts.path": {
+      "description": "Path of the artifacts for the assessment",
+      "type": "string"
+    },
+    "polaris.test.*.tests.*.artifacts.uploadSuccessful": {
+      "description": "Flag specifying if the artifact for the assessment was uploaded successfully",
+      "type": "bool"
+    },
+    "polaris.test.*.tests.*.completed": {
+      "description": "Flag indicating the completion of the assessment",
+      "type": "bool"
+    },
+    "polaris.test.*.tests.*.id": {
+      "description": "Test id for the assessment",
+      "type": "string"
+    },
+    "polaris.test.*.tests.*.issues.*": {
+      "description": "Issues count for the assessment",
+      "type": "int"
+    },
+    "polaris.test.*.tests.*.shortId": {
+      "description": "Short test id for the assessment",
+      "type": "string"
+    },
+    "polaris.test.*.tests.*.summary.url": {
+      "description": "Link to Polaris Issue view for the specific scan type within the assessment type",
+      "type": "string"
+    },
+    "polaris.test.*.tests.*.toolIds": {
+      "description": "Tool ids associated with the assessment",
+      "type": "[]string"
+    },
+    "polaris.test.*.type": {
+      "description": "The scan mode types for SAST and SCA assessment types",
+      "type": "[]string"
+    },
+    "polaris.test.ai.tests.ExternalAnalysis.requested": {
+      "description": "Flag specifying if the ExternalAnalysis scan type for AI assessment is requested or not",
+      "type": "bool"
+    },
+    "polaris.test.sast.pollTime": {
+      "description": "Poll time to wait for SAST assessment type",
+      "type": "int"
+    },
+    "polaris.test.sast.tests.*.streamId": {
+      "description": "Coverity scan stream id for caching",
+      "type": "string"
+    },
+    "polaris.test.sca.pollTime": {
+      "description": "Poll time to wait for SCA assessment type",
+      "type": "int"
+    },
+    "polaris.triage": {
+      "description": "Controls the triage behavior of the test",
+      "type": "string"
+    },
+    "polaris.waitForScan": {
+      "description": "Indicates if the workflow should wait for the scan to complete or not, defaults to true",
+      "type": "bool"
+    },
+    "project.directory": {
+      "description": "Project source code directory",
+      "type": "string"
+    },
+    "project.source.archive": {
+      "description": "Path to the project source zip",
+      "type": "string"
+    },
+    "project.source.excludes": {
+      "description": "Files/Pattern to exclude from the source while creating the zip archive",
+      "type": "[]string"
+    },
+    "project.source.preserveSymLinks": {
+      "description": "Flag indicating whether to preserve symlinks in the source zip",
+      "type": "bool"
+    },
+    "project.source.uploadSuccessful": {
+      "description": "Flag specifying if the source upload was successful",
+      "type": "bool"
+    },
+    "scm.branch.name": {
+      "description": "Source branch name of the repository, irrespective of the SCM type",
+      "type": "string"
+    },
+    "scm.branch.parent": {
+      "description": "Target branch name of the repository, irrespective of the SCM type",
+      "type": "string"
+    },
+    "scm.enterprise.version": {
+      "description": "SCM Enterprise Version",
+      "type": "string"
+    },
+    "sigma.args": {
+      "description": "Additional arguments to pass to Sigma",
+      "type": "string"
+    },
+    "sigma.completed": {
+      "description": "Flag indicating whether the Sigma scan happened successfully or not",
+      "type": "bool"
+    },
+    "sigma.execution.path": {
+      "description": "Execution path of the Sigma binary",
+      "type": "string"
+    },
+    "sigma.id": {
+      "description": "Tool id of Sigma tool used",
+      "type": "string"
+    },
+    "sigma.install.directory": {
+      "description": "Directory path where Sigma is installed",
+      "type": "string"
+    },
+    "sigma.output.directory": {
+      "description": "Directory path where Sigma output is stored",
+      "type": "string"
+    },
+    "sigma.output.logs": {
+      "description": "File path where Sigma logs are stored",
+      "type": "string"
+    },
+    "sigma.output.metrics": {
+      "description": "File path where Sigma output metrics are stored",
+      "type": "string"
+    },
+    "sigma.output.telemetry": {
+      "description": "File path where Sigma telemetry is stored",
+      "type": "string"
+    },
+    "snippetGenerator.avro.dir": {
+      "description": "Directory where the Avro files for the snippet generator are located",
+      "type": "string"
+    },
+    "snippetGenerator.execution.path": {
+      "description": "Path to the Snippet Generator executable",
+      "type": "string"
+    },
+    "snippetGenerator.install.directory": {
+      "description": "Directory where the snippet generator is installed",
+      "type": "string"
+    },
+    "teleport.config.file": {
+      "description": "Path to a Teleport Configuration file",
+      "type": "string"
+    },
+    "teleport.execution.path": {
+      "description": "path to the Teleport Agent Executable",
+      "type": "string"
+    },
+    "teleport.execution.pid": {
+      "description": "Process ID for the running Teleport Agent",
+      "type": "int"
+    },
+    "teleport.initialized": {
+      "description": "Flag indicating the Teleport Proxy agent is ready",
+      "type": "bool"
+    },
+    "teleport.install.directory": {
+      "description": "Directory where the teleport tool should be installed",
+      "type": "string"
+    },
+    "tool.install.directory": {
+      "description": "install directory which can also be specified by the user. If not specified bridge will set it to bridge default directory",
+      "type": "string"
+    }
+  },
+  "types": {
+    "commenterissue": {
+      "comment": {
+        "description": "The string comment details",
+        "type": "string"
+      },
+      "commentTable": {
+        "description": "The table comment details",
+        "type": "CommentTable"
+      },
+      "commentType": {
+        "description": "The comment content type, could be string or table",
+        "type": "string"
+      },
+      "file": {
+        "description": "The relative path to the file that necessitates a comment",
+        "type": "string"
+      },
+      "from": {
+        "description": "The reporter of the issue",
+        "type": "string"
+      },
+      "lineNumber": {
+        "description": "The line of the blob in the pull request diff that the comment applies to",
+        "type": "int"
+      },
+      "stream": {
+        "description": "The stream name/identifier where the issue originated from",
+        "type": "string"
+      },
+      "testType": {
+        "description": "The type of the test that generated the issues",
+        "type": "string"
+      },
+      "uid": {
+        "description": "The unique ID of the issue ",
+        "type": "string"
+      }
+    },
+    "commenttable": {
+      "description": {
+        "description": "The description about the table",
+        "type": "string"
+      },
+      "heads": {
+        "description": "The heads of the table",
+        "type": "[]string"
+      },
+      "records": {
+        "description": "The records of the table",
+        "type": "[]Record"
+      }
+    },
+    "dependencytree": {
+      "isDirect": {
+        "description": "Flag which indicates whether a dependency tree component is a direct dependency of a transitive component-version pair",
+        "type": "bool"
+      },
+      "originID": {
+        "description": "Origin ID of a dependency tree item",
+        "type": "string"
+      }
+    },
+    "dependencytrees": {
+      "DependencyTree": {
+        "description": "Dependency tree of a component-version pair",
+        "type": "[]DependencyTree"
+      }
+    },
+    "downloadtype": {
+      "headers": {
+        "description": "any additional headers needed to make the download request successful",
+        "type": "[]headersType"
+      },
+      "path": {
+        "description": "the location on disk where the payload was downloaded to",
+        "type": "string"
+      },
+      "url": {
+        "description": "the url to download a payload from",
+        "type": "string"
+      }
+    },
+    "headerstype": {
+      "name": {
+        "description": "Header name to send with download URL request",
+        "type": "string"
+      },
+      "value": {
+        "description": "Header value to send with download URL request",
+        "type": "string",
+        "isSensitive": true
+      }
+    },
+    "record": {
+      "columns": {
+        "description": "The columns of the table",
+        "type": "[]string"
+      }
+    },
+    "sarifissue": {
+      "sast": {
+        "description": "SAST SARIF issues",
+        "type": "[]SASTIssue"
+      },
+      "sca": {
+        "description": "SCA SARIF issues",
+        "type": "[]SCAIssue"
+      },
+      "toolName": {
+        "description": "Tool Name for the SARIF report",
+        "type": "string"
+      },
+      "toolVersion": {
+        "description": "Tool Version for the SARIF report",
+        "type": "string"
+      }
+    },
+    "sariflocation": {
+      "filePath": {
+        "description": "Associated file path in the source code for a component-version pair issue",
+        "type": "string"
+      },
+      "startLine": {
+        "description": "Start line of a component-version pair issue in the associated file",
+        "type": "int"
+      }
+    },
+    "sastevent": {
+      "description": {
+        "description": "Description of the SAST event",
+        "type": "string"
+      },
+      "location": {
+        "description": "Location of the SAST event",
+        "type": "SARIFLocation"
+      },
+      "occurrenceId": {
+        "description": "Occurrence ID of a SAST issue occurrence that is associated with the SAST event",
+        "type": "string"
+      }
+    },
+    "sastissue": {
+      "cwe": {
+        "description": "CWE associated with the SAST issue",
+        "type": "string"
+      },
+      "description": {
+        "description": "Description of the SAST issue",
+        "type": "string"
+      },
+      "events": {
+        "description": "List of SAST events",
+        "type": "[]SASTEvent"
+      },
+      "issueTypeURL": {
+        "description": "Issue type URL of the SAST issue",
+        "type": "string"
+      },
+      "issueURL": {
+        "description": "Issue URL of the SAST issue",
+        "type": "string"
+      },
+      "key": {
+        "description": "Key of the SAST issue",
+        "type": "string"
+      },
+      "localEffect": {
+        "description": "Local effect of the SAST issue",
+        "type": "string"
+      },
+      "location": {
+        "description": "SARIF location of the SAST issue",
+        "type": "SARIFLocation"
+      },
+      "name": {
+        "description": "Name of the SAST issue",
+        "type": "string"
+      },
+      "remediation": {
+        "description": "Remediation for the SAST issue",
+        "type": "string"
+      },
+      "severity": {
+        "description": "Severity of the SAST issue",
+        "type": "string"
+      },
+      "shortDescription": {
+        "description": "Short description of the SAST issue",
+        "type": "string"
+      }
+    },
+    "scaissue": {
+      "componentURL": {
+        "description": "Related URL of the component-version pair page in the Blackduck SCA Server",
+        "type": "string"
+      },
+      "dependencyTrees": {
+        "description": "Dependency trees of a component-version pair",
+        "type": "[]DependencyTrees"
+      },
+      "directDependencyLongTerm": {
+        "description": "Long term upgrade guidance of direct dependency if the component-version pair is transitive dependency",
+        "type": "string"
+      },
+      "directDependencyOriginId": {
+        "description": "Direct dependency Origin ID of a transitive dependency",
+        "type": "string"
+      },
+      "directDependencyShortTerm": {
+        "description": "Short term upgrade guidance of direct dependency if the component-version pair is transitive dependency",
+        "type": "string"
+      },
+      "isDirect": {
+        "description": "Flag which indicates whether a component-version pair is a direct Dependency",
+        "type": "bool"
+      },
+      "locations": {
+        "description": "Associated locations details of a component-version pair",
+        "type": "[]SARIFLocation"
+      },
+      "longTerm": {
+        "description": "Long term upgrade guidance of a component-version pair",
+        "type": "string"
+      },
+      "maxSeverity": {
+        "description": "Maximum Severity of all Vulnerabilities in a component-version pair",
+        "type": "string"
+      },
+      "name": {
+        "description": "Name of the Component",
+        "type": "string"
+      },
+      "originID": {
+        "description": "Origin ID of a component-version pair",
+        "type": "string"
+      },
+      "shortTerm": {
+        "description": "Short term upgrade guidance of a component-version pair",
+        "type": "string"
+      },
+      "version": {
+        "description": "Version of the Component",
+        "type": "string"
+      },
+      "vulnerabilities": {
+        "description": "Vulnerabilities details of a component-version pair",
+        "type": "[]Vulnerability"
+      }
+    },
+    "vulnerability": {
+      "associatedCVE": {
+        "description": "Associated CVE of the Vulnerability",
+        "type": "string"
+      },
+      "cwes": {
+        "description": "CWE Id of the Vulnerability",
+        "type": "[]string"
+      },
+      "description": {
+        "description": "Description of the Vulnerability",
+        "type": "string"
+      },
+      "name": {
+        "description": "Name of the Vulnerability",
+        "type": "string"
+      },
+      "severity": {
+        "description": "Severity of the Vulnerability",
+        "type": "string"
+      },
+      "solution": {
+        "description": "Solution of the Vulnerability",
+        "type": "string"
+      },
+      "title": {
+        "description": "Title of the of the Vulnerability",
+        "type": "string"
+      },
+      "workaround": {
+        "description": "Workaround of the Vulnerability",
+        "type": "string"
+      }
+    }
+  }
+}
